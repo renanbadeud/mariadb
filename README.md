@@ -116,7 +116,7 @@ Get any of k8s cluster node ip address:
 
     k get nodes -o wide 
 
-You will be able now to acess the phpmyadmin interface on your web browser in any of k8s cluster node ip address on the port 31733, login as root and the same password defined in rootUser.password in [values.yaml](values.yaml).
+You will be able now to acess the phpmyadmin interface on your web browser in any of k8s cluster node ip address on the port 31733, login as root and use the same password defined in rootUser.password in [values.yaml](values.yaml).
     
 
 
