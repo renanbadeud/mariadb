@@ -108,7 +108,7 @@ Next, deploy the phpmyadmin deployment:
 
     k apply -f php-deployment.yaml
 
-To access the phpmyadmin deployment externaly of the cluster, use the nodePort service:
+To access the phpmyadmin deployment externaly of the cluster, deploy the nodePort service:
     
     k apply -f php-svc.yaml
 
