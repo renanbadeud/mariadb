@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment # what to create?
+metadata:
+  name: php-deployment
+  namespace: mariadb  
+spec: # specification for deployment resource
+  replicas: 1 # how many replicas of pods we want to create
+  selector:
+    matchLabels:
+      app: php
+  template: # blueprint for pods
+    metadata:
+      labels:
+        app: php # service will look for this label
+    spec: # specification for Pods
+      containers:
+      - name: phpmyadmin
+        image: bitnami/phpmyadmin:latest
+        ports:
+        - containerPort: 8080
+        env:
+          #- name: DATABASE_ALLOW_NO_PASSWORD 
+          #value: 'yes'  
+
+        - name: DATABASE_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: mariadb-configmap
+              key: database_url

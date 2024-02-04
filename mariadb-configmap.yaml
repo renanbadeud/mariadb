@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-configmap
+  namespace: mariadb 
+data:
+  database_url: mariadb-galera-cluster
