@@ -90,11 +90,41 @@ Check that data was removed:
 
 You also can run a temporary client pod to make operations in the database, note that the mysql host is the service mariadb-galera-cluster, the requests made by client are forwarded to any of the galera engine pods:
 
-     kubectl run mariadb-galera-cluster-client --rm --tty -i --restart='Never' --namespace mariadb --image docker.io/bitnami/mariadb-galera:11.2.2-debian-11-r5 --command -- mysql -h mariadb-galera-cluster -P 3306 -uroot -p$(kubectl get secret --namespace mariadb mariadb-galera-cluster -o jsonpath="{.data.mariadb-root-password}" | base64 -d) my_database
+     k run mariadb-galera-cluster-client --rm --tty -i --restart='Never' --namespace mariadb --image docker.io/bitnami/mariadb-galera:11.2.2-debian-11-r5 --command -- mysql -h mariadb-galera-cluster -P 3306 -uroot -p$(kubectl get secret --namespace mariadb mariadb-galera-cluster -o jsonpath="{.data.mariadb-root-password}" | base64 -d) my_database
 
 Check the data:
 
     SELECT * from Artist;
+
+## phpmyadmin
+
+You also can manage mariadb-galera-cluster with phpmyadmin.
+
+Deploy the configmap [mariadb-configmap.yaml](mariadb-configmap.yaml) that was used save the database_url: mariadb-galera-cluster that is the name of the service that points to galera engines pods.
+    
+    k apply -f mariadb-configmap.yaml
+
+Next, deploy the phpmyadmin deployment:
+
+    k apply -f php-deployment.yaml
+
+To access the phpmyadmin deployment externaly of the cluster, use the nodePort service:
+    
+    k apply -f php-svc.yaml
+
+Get any of k8s cluster node ip address:
+
+    k get nodes -o wide 
+
+You will be able now to acess the phpmyadmin interface on your web browser in any of k8s cluster node ip address on the port 31733, login as root and the same password defined in rootUser.password in [values.yaml](values.yaml).
+    
+
+
+
+    
+    
+
+
 
 
 
